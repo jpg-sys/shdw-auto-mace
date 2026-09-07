@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "chromium-auto-mace",
+  "version": "${version}",
+  "name": "Chromium Auto Mace",
+  "description": "Client-side auto mace and shield stun-slam module for Minecraft 1.21.11.",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.shadowvoid.chromium.automace.AutoMaceClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
