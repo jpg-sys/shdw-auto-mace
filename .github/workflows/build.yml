@@ -1,0 +1,45 @@
+name: Build Fabric mod
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.2.1"
+
+      - name: Compile and remap mod
+        run: gradle clean build --stacktrace --no-daemon
+
+      - name: Collect production JAR
+        run: |
+          mkdir -p artifact
+          cp build/libs/chromium-auto-mace-0.1.0.jar artifact/chromium-auto-mace-1.21.11.jar
+
+      - name: Upload mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromium-auto-mace-1.21.11
+          path: artifact/chromium-auto-mace-1.21.11.jar
+          if-no-files-found: error
+          retention-days: 7
